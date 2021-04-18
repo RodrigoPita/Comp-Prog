@@ -110,7 +110,11 @@ int32_t negativo(int32_t x) {
  */
 int32_t bitwiseAnd(int32_t x, int32_t y) {
     return (~(~x | ~y)); //Pegamos a negação de x e ye tiramos o OU entre eles e depois negamos o resultado de novo. Essa segunda parte é para cuidar dos casos em que os dois números são iguais.
-    //Então se x = 1 e y = 0, pegamos 0 OU 1 = 1 e negamos, dando 0
+    //Então se 
+    //x = 0 e y = 0, pegamos 1 OU 1 = 1 e negamos, dando 0
+    //x = 1 e y = 0, pegamos 0 OU 1 = 1 e negamos, dando 0
+    //x = 0 e y = 1, pegamos 1 OU 0 = 1 e negamos, dando 0
+    //x = 1 e y = 1, pegamos 0 OU 0 = 0 e negamos, dando 1
 }
 
 /* Igual sem ==
