@@ -20,9 +20,11 @@
  *      - As resoluções com menos operações do que a do monitor terão bonificação.
  *
  * Assinatura:
- *      Aluno: <nome>
- *      DRE: <DRE>
- *      versão do GCC utilizada: XXXX
+ *      Aluno: <nome> Rodrigo Côrtes Nogueira da Rocha Pita
+ *      DRE: <DRE> 118187443
+ *      Aluno: <nome> Pedro Paulo Moussa
+ *      DRE: <DRE> 119181709
+ *      versão do GCC utilizada: 9.3.0
  *
  */
 
@@ -50,7 +52,7 @@
  *          ehPar(7) -> 0
  */
 int32_t ehPar(int32_t x) {
-    return ((x & 1) == 0);
+    return ((x & 1) == 0); //se x&1 der 0, significa que x acaba em 0, ou seja, o número é divisível por 2
 }
 
 /*
@@ -69,7 +71,7 @@ int32_t ehPar(int32_t x) {
  *          mod8(10) -> 2
  */
 int32_t mod8(int32_t x) {
-    x = x & 7; //usamos x & 7 , pois mod8 é um grupo de abeliano de 0 à 7, para saber qual termo do grupo um número é, tiramos o resíduo de uma divisão por 8
+    x = x & 7; //usamos x & 7 , pois mod8 é um grupo abeliano de 0 à 7, para saber qual termo do grupo um número é, tiramos o resíduo de uma divisão por 8
     return x;
 }
 
@@ -88,7 +90,7 @@ int32_t mod8(int32_t x) {
  */
 int32_t negativo(int32_t x) {
     x = ~x + 1;
-    return x;
+    return x; //para transformar o número em negativo sem '-', usamos o complemento a dois do número, que é representado por inverter os 1s e 0s e somar 1
 }
 
 /* Implementação do & usando bitwise
@@ -107,7 +109,8 @@ int32_t negativo(int32_t x) {
  *              11 & 1011 -> 0011
  */
 int32_t bitwiseAnd(int32_t x, int32_t y) {
-    return (~(~x | ~y));
+    return (~(~x | ~y)); //Pegamos a negação de x e ye tiramos o OU entre eles e depois negamos o resultado de novo. Essa segunda parte é para cuidar dos casos em que os dois números são iguais.
+    //Então se x = 1 e y = 0, pegamos 0 OU 1 = 1 e negamos, dando 0
 }
 
 /* Igual sem ==
@@ -124,7 +127,8 @@ int32_t bitwiseAnd(int32_t x, int32_t y) {
  *          ehIgual(16, 8) -> 0
  */
 int32_t ehIgual(int32_t x, int32_t y) {
-    return (!(x ^ y));
+    return (!(x ^ y)); //o XOR (OU Exclusivo) retorna 1 quando os valores comparados forem diferentes e 0, se forem iguais,
+    // então a negação do XOR retornará 1 para valores iguais e 0 para diferentes
 }
 
 /* Limpa bit n
@@ -175,9 +179,6 @@ int32_t limpaBitN(int32_t x, int8_t n) {
 int32_t bitEmP(int32_t x, uint8_t p) {
     return ((x >> p) & 1);
     //bitshift e depois verificar se é par
-    //x = x >> p;
-    //se for par, if(1) return bit = 0
-    //return ((ehPar(x)) == 0); //senao, return bit = 1
 }
 
 /*
@@ -206,6 +207,16 @@ int32_t byteEmP(int32_t x, uint8_t p) {
     x = x << 24-(8*p);
     x = x >> 24;
     return x;
+    //0x12345678 = 0001 0010 0011 0100 0101 0110 0111 1000
+    //p = 1
+    //x << 24 - (8*p) = 0101 0110 0111 1000
+    //x >> 24 = 0000 0000 0000 0000 0000 0000 0101 0110 = 0x56
+    //p = 2
+    //x << 24 - (8*p) = 0011 0100 0101 0110 0111 1000
+    //x >> 24 = 0000 0000 0000 0000 0000 0000 0011 0100 = 0x34
+    //p = 3
+    //x << 24 - (8*p) = 0001 0010 0011 0100 0101 0110 0111 1000
+    //x >> 24 = 0000 0000 0000 0000 0000 0000 0001 0010 = 0x12
 }
 
 /*
@@ -231,6 +242,8 @@ int32_t byteEmP(int32_t x, uint8_t p) {
  */
 int32_t setaByteEmP(int32_t x, int32_t y, uint8_t p) {
     return x |= y << 8 * p;
+    //0x12345678 = 0001 0010 0011 0100 0101 0110 0111 1000
+    //0xFF = 0000 0000 0000 0000 0000 0000 0000 1111 1111
 }
 
 /*
@@ -250,7 +263,8 @@ int32_t setaByteEmP(int32_t x, int32_t y, uint8_t p) {
  *
  */
 int32_t minimo(int32_t x, int32_t y) {
-    return y ^ ((x ^ y) & - (x < y));
+    return y ^ ((x ^ y) & - (x < y)); //funciona, pois se x>y, então -(x<y) = -1 (11111...), então ficará y^((x^y) & (111111...) que fica y^x^y = x
+    //caso contrário, -(x<y) = 0, logo a função retorna y^((x^y) & 0) = y^0 = y
 }
 
 /*
@@ -269,7 +283,7 @@ int32_t minimo(int32_t x, int32_t y) {
  *
  */
 int32_t negacaoLogica(int32_t x) {
-  return ((x >> 31) | ((~x + 1) >> 31)) + 1;
+  return ((x >> 31) | ((~x + 1) >> 31)) + 1; //shiftamos tanto x, quanto a negacao de x 31 casas para a direita.
 }
 
 void teste(int32_t saida, int32_t esperado) {
