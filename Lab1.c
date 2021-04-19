@@ -211,6 +211,9 @@ int32_t byteEmP(int32_t x, uint8_t p) {
     x = x << 24-(8*p);
     x = x >> 24;
     return x;
+    //a função faz um left shift até chegar no byte desejado e os bits shiftados pra fora são perdidos,
+    //depois um right shift até que o byte desejado seja o lsb
+    //como os bits são perdidos, o right shift coloca tudo como 0
     //0x12345678 = 0001 0010 0011 0100 0101 0110 0111 1000
     //p = 1
     //x << 24 - (8*p) = 0101 0110 0111 1000
